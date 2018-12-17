@@ -2,7 +2,7 @@
 
 char dir[60];
 extern short int u[];
-extern float v_dat[6][maxit];
+extern float v_dat[][maxit];
 extern struct s_datos datos;
 
 FILE *Finput,*Foutput,*Fconfig;
@@ -51,19 +51,20 @@ void lee_datos(void)
     float * ptdatos_real;
     char name[60];
 
-
+    
     Finput=fopen("input","r");
     if (Finput==NULL)
     {
 	printf(" No existe el fichero INPUT.\n");
 	exit(0);
     }
-    fscanf(Finput,"%s",dir);
+        fscanf(Finput,"%s",dir);
     for (j=0,ptdatos_int=&datos.itmax;j<NDATOS_INT;j++)
 	fscanf(Finput,"%d",ptdatos_int++);
     for (j=0,ptdatos_real=&datos.beta;j<NDATOS_FLOAT;j++)
 	fscanf(Finput,"%f",ptdatos_real++);
     fclose(Finput);
+
 #ifdef DEBUG
     pinta_datos(&datos);
 #endif
@@ -72,8 +73,9 @@ void lee_datos(void)
 	printf(" itmax > %i\a\n",maxit);
 	exit(0);
     }
+
     if (datos.flag<2)
-    {                                      /* existe outxxx.dat o conf. ? */
+    {                                      
 
 	sprintf(name,"%s%s%03d%s",dir,"OUT",datos.itcut,".DAT");
 	Foutput=fopen(name,"rb");
@@ -81,7 +83,7 @@ void lee_datos(void)
 	{
 	    fclose(Foutput);
 	    printf(" %s  ya existe.\a\n",name);
-	    /* exit(0); */
+
 	}
 	sprintf(name,"%s%s",dir,"conf");
 
@@ -90,7 +92,7 @@ void lee_datos(void)
 	{
 	    fclose(Foutput);
 	    printf(" %s  ya existe.\a\n","CONF.");
-       /*	    exit(0);        */
+
 	}
     }
 }
@@ -113,7 +115,6 @@ void lee_conf(void)
     fread(u,sizeof(short int),nlinks,Fconfig);
 #ifdef DEBUG
     pinta_datos(&datosb);
-    printf("%4d %4d %4d\n",interior[0],interior[1],interior[nlinks-1]);
 #endif
     if (datos.itmax != datosb.itmax ||
 	datos.mesfr != datosb.mesfr ||
@@ -136,7 +137,7 @@ void lee_conf(void)
     }
     else
     {
-         datos.itcut=datosb.itcut; 
+	datos.itcut=datosb.itcut;
 	datos.delta=datosb.delta;
 	datos.seed=datosb.seed;
     }

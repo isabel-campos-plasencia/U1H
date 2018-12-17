@@ -1,5 +1,5 @@
 
-/* PROGRAMA DE ANALISIS PARA EL MODELO SU(2) - HIGGS */
+/* PROGRAMA DE ANALISIS PARA U(1) CON DOS COUPLINGS EN LA ESFERA */
 		     /*    HEADER	*/
 
 # include <stdio.h>
@@ -12,12 +12,18 @@ typedef struct{float a0,a1,a2,a3;} o4v;
 
  
 
-# define L              24
+# define L              18
+# define Lm1            (L-1)
+# define Lm2            (L-2)
+# define V              (L*L*L*L*L-Lm2*Lm2*Lm2*Lm2*Lm2)
+# define N_Pl (Lm1*(4+Lm2*(19+Lm2*(35+Lm2*(20-Lm1)-2*Lm1*Lm1))+Lm1*(4+L*(3+L*(2+L))+2*Lm1*(6+L*(3+L)+9*Lm1))))
+/*# define N_Pl           5040*/ /* Valido para L=4 */
+/*#define N_Pl            16800*/ /* Nueva Medida para L=4*/
 # define maxit 		5000
-# define maxbloque 	 20
+# define maxbloque 	 900
 # define nom_fich	 "OUT"
 # define n_obs_medid     2 /* estos se miden directamente del output */    
-# define n_obs_FS	 4 /* para el cumulante  */
+# define n_obs_FS	 4 /* para el cumulante */
 # define maxfiles	 5000
 # define nbetas  	 80
 # define n_inter	 100
@@ -31,7 +37,7 @@ typedef struct{float a0,a1,a2,a3;} o4v;
 
 float v_dat[n_obs_FS][maxit],raw_dat[n_obs_medid][maxit];
 long int frec[maxbloque][n_inter+1];
-long int vol;
+long int vol=N_Pl;
 double xfrec[n_obs_FS][maxbloque][n_inter+1],SumO[n_obs_FS];
 double coup_maxder[n_obs_FS][maxbloque+1], err_coup[n_obs_FS];
 double maxder[n_obs_FS][maxbloque+1], err_maxder[n_obs_FS];

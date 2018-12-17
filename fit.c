@@ -293,10 +293,10 @@ void main(int argc, char *argv[])
 {
     char nombre[100],nombre_case[100];
     int i,j,k,n,n1,n2,idat,jdat_c;
-    int lblo,ib,ibb,it,jdat;
+    int lblo,ib,ibb,it,jdat,L,Lm2,Lm1;
     long v;
     double datos_coupling[3];
-    int vol_coupling[3];
+    long vol_coupling[3];
 
     int l   =6,       /* default  */
 	nblo=2;
@@ -424,9 +424,12 @@ void main(int argc, char *argv[])
     }
     if (argc==8)
       fclose(Fnombres);
-    v=(long)l*l*l*l;
-
-    vol_coupling[0] = 6*v;
+    L=l;
+    Lm2=L-2;
+    Lm1=L-1;
+    v=(long)(L*L*L*L*L-Lm2*Lm2*Lm2*Lm2*Lm2);
+    printf("\n VOL %i",v);
+    vol_coupling[0] =(Lm1*(4+Lm2*(19+Lm2*(35+Lm2*(20-Lm1)-2*Lm1*Lm1))+Lm1*(4+L*(3+L*(2+L))+2*Lm1*(6+L*(3+L)+9*Lm1))));
     vol_coupling[1] = 4*v;
     vol_coupling[2] = 6*v;
 
@@ -435,6 +438,7 @@ void main(int argc, char *argv[])
     datos_coupling[2] = datos.kappa2;
 
     v=vol_coupling[jdat];
+    printf("\n N_PLAQ %i",v);
 
     coup=datos_coupling[jdat];
 
@@ -559,7 +563,7 @@ void main(int argc, char *argv[])
 	hist[i]=sumf+disp;
 	fprintf(Foutplt,"%10.6f %10.6f %10.6f\n",y,
 		(double) sumf/normalizacion,disp/normalizacion);
-	fprintf(Fh,"%10.6f %10.6f\n",y,
+	fprintf(Fh,"%10.6f %10.6f",y,
 		(double) sumf/normalizacion);
       }
     fclose(Fh);

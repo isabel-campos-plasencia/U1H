@@ -4,23 +4,28 @@
 #include <float.h>
 #include <string.h>
 #include <time.h>
+/*#define DEBUG*/
+/* #define HISTER */
 
-/* #define HISTER */ 
-
-#define L        24
-
+#define L         16
+#define Lm1			(L-1)
+#define Lm2			(L-2)
 #define maxglob    L
-
+#define D			5
+#define	Dm1		(D-1)
+#define L_D 		(L*L*L*L*L)
+#define Lm1_D		(Lm1*Lm1*Lm1*Lm1*Lm1)
 #define Nest       1024        /* U(1) se aproxima por Z(Nest) */
 
-#define nhit       2          /* Numero de hits de los c. de gauge         */
+#define nhit       3          /* Numero de hits de los c. de gauge         */
 
 #define maxit      200        /* Numero de iteraciones maximo por bin      */
 
 #define NOBS_HISTER 2			
 
-#define  V         (L*L*L*L)  /* numero de sites en cada transputer        */
-#define  nlinks    (4*V)
+#define  V         (L_D-Lm2*Lm2*Lm2*Lm2*Lm2)  /* numero de sites en cada transputer        */
+/*#define  Voff		V-L^(D-1)-(L-2)^(D-1)  no usar               */
+#define  nlinks    (D*V)
 
 
 #define L3 (L*L*L)
@@ -31,7 +36,6 @@
 #define NormRAN (1.0F/( (float) RAND_MAX+1.0F))
 
 #define  RAN() ( (float) rand() * NormRAN )
-
 
 
 #define FNORM   (2.3283063671E-10F)
@@ -50,11 +54,12 @@ extern unsigned ira[];
 #define randmax NormRAN
 
 
+
 #define  Nestm1  (Nest-1)
 
 #define twopioverNest ( twopi/((double) Nest))
 #define Nestovertwopi ( ((float) Nest)/twopi)
-#define Normaener  ( (float) (1.0/(double) (V*6)))
+/*#define Normaener  ( (float) (1.0/(double) (V*6)))         */
 #define Normapoly  ( (float) (1.0/(double) (4*L3)))
 
 #define rNest      ( (float) Nest)
@@ -89,6 +94,10 @@ struct s_datos
 #else
 #define NDATOS_FLOAT 3     /* numero de campos float en s_datos */
 #endif
+
+
+
+
 
 
 

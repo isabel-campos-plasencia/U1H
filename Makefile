@@ -32,3 +32,17 @@ nrgio.o: nrgio.c nrg.h Makefile
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
